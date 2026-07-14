@@ -1,4 +1,5 @@
-# ElectroCircuit 🔌⚡
+<img width="2048" height="1463" alt="Electrocircuit_Logo(1)" src="https://github.com/user-attachments/assets/950db887-5724-426d-ae09-c962d910815d" /># ElectroCircuit 🔌⚡ 
+
 ### Interactive Web-Based Digital Logic Simulator
 
 > Build, wire, and simulate digital logic circuits — entirely in your browser. No installation required.
