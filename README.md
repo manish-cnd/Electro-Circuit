@@ -1,9 +1,12 @@
-# ElectroCircuit 🔌⚡
+# ElectroCircuit 🔌
 ### Interactive Web-Based Digital Logic Simulator
 
 > Build, wire, and simulate digital logic circuits — entirely in your browser. No installs required.
 
 ---
+
+### You can check the page directly by clicking [here](https://manish-cnd.github.io/Electro-Circuit/#/dashboard)
+
 
 ## 🎯 What is ElectroCircuit?
 
