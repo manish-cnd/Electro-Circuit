@@ -16,7 +16,6 @@ function ProtectedRoute({ children }) {
 
 export default function App() {
   return (
-    // <BrowserRouter> 
     <HashRouter>
       <Routes>
         {/* Public routes */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import logoImg from '../../assets/logo.jpg';
 
 /**
  * LogoMark — The ElectroCircuit SVG logo icon (circuit-E with lightning bolt).
@@ -7,7 +8,7 @@ import React from 'react';
 export function LogoMark({ size = 32 }) {
   return (
     <img
-      src="/logo.jpg"
+      src={logoImg}
       alt="ElectroCircuit"
       width={size}
       height={size}

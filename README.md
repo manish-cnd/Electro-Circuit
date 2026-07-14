@@ -1,8 +1,7 @@
-<img width="2048" height="1463" alt="Electrocircuit_Logo(1)" src="https://github.com/user-attachments/assets/950db887-5724-426d-ae09-c962d910815d" /># ElectroCircuit 🔌⚡ 
-
+# ElectroCircuit 🔌⚡
 ### Interactive Web-Based Digital Logic Simulator
 
-> Build, wire, and simulate digital logic circuits — entirely in your browser. No installation required.
+> Build, wire, and simulate digital logic circuits — entirely in your browser. No installs required.
 
 ---
 
@@ -15,7 +14,7 @@ It solves the #1 pain point of traditional EDA tools:
 - ❌ Steep learning curves and outdated UIs
 - ❌ No instant visual feedback
 
-CircuitFlow replaces all of that with:
+ElectroCircuit replaces all of that with:
 - ✅ Browser-based, zero-install, zero-backend
 - ✅ Real-time glowing wire simulation
 - ✅ Drag-and-drop from component library
@@ -24,22 +23,40 @@ CircuitFlow replaces all of that with:
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Run the Project Locally (Localhost Server)
+
+To view the project and try a demo on your own machine, you need to start the local development server. Follow these steps:
 
 ### Prerequisites
-- Node.js v18+ installed
+- [Node.js](https://nodejs.org/) (v18 or higher) installed on your system.
 
-### Installation
-
+### 1. Download and Open the Project
+Extract the project folder and open your terminal/command prompt inside the project directory:
 ```bash
+# If the folder is named circuit-flow, navigate into it:
 cd circuit-flow
+```
+
+### 2. Install Dependencies
+Run the following command to download all required packages:
+```bash
 npm install
+```
+
+### 3. Start the Local Server
+Once installation is complete, start the Vite development server by running:
+```bash
 npm run dev
 ```
 
-Open: **http://localhost:5173**
+### 4. Open the App in Your Browser
+The terminal will provide a localhost link. Open your browser and navigate to:
+**👉 http://localhost:5173**
 
-### Login Credentials (Mock Auth)
+---
+
+### 🔑 Demo Login Credentials
+When you reach the login screen, you can use the following mock credentials to enter the app:
 | Username | Password |
 |---|---|
 | `admin` | `password123` |
@@ -47,16 +64,16 @@ Open: **http://localhost:5173**
 
 ---
 
-## 🎮 How to Use
+## 🎮 How to Use the Simulator
 
-1. **Log in** → View/create projects on the Dashboard
-2. **Drag** components from the sidebar onto the canvas
-3. **Draw wires** by clicking source handles → dragging to target handles
-4. **Click "Run"** to start simulation (or press `R`)
-5. **Toggle switches** to flip inputs 0↔1
-6. Watch **wires glow green** and **LEDs light up yellow**
-7. Open the **waveform panel** for timing diagrams
-8. **Save** with `Ctrl+S`, **Export** as JSON or PNG
+1. **Log in** → View/create projects on the Dashboard.
+2. **Drag** components from the left sidebar onto the canvas.
+3. **Draw wires** by clicking source handles and dragging them to target handles.
+4. **Click "Run"** to start the simulation (or press `R`).
+5. **Toggle switches** to flip inputs between `0` and `1`.
+6. Watch **wires glow green** and **LEDs light up yellow** as logic propagates.
+7. Open the **waveform panel** for timing diagrams.
+8. **Save** with `Ctrl+S`, and **Export** as JSON or PNG when finished.
 
 ---
 
@@ -64,53 +81,34 @@ Open: **http://localhost:5173**
 
 | Shortcut | Action |
 |---|---|
-| `R` | Toggle simulation |
-| `Delete` | Delete selected |
-| `Ctrl+Z` / `Ctrl+Y` | Undo / Redo |
-| `Ctrl+S` | Save |
+| `R` | Toggle simulation play/pause |
+| `Delete` / `Backspace` | Delete selected nodes or wires |
+| `Ctrl+Z` / `Ctrl+Y` | Undo / Redo changes |
+| `Ctrl+S` | Save project |
+| `Shift + Drag` | Multi-select nodes on canvas |
 
 ---
 
 ## 🧩 Components Available
 
-**Gates:** AND, OR, NOT, NAND, NOR, XOR, XNOR, Buffer
-
-**Sequential:** D Flip-Flop, T Flip-Flop, JK Flip-Flop
-
-**Inputs:** Toggle Switch, Clock Generator
-
-**Outputs:** LED Indicator, 7-Segment Display
-
----
-
-## 🏗️ Project Structure
-
-```
-src/
-├── components/canvas/     # React Flow canvas
-├── components/nodes/      # Gate SVG components
-├── components/edges/      # Glowing wire edge
-├── components/ui/         # Pages & UI components
-├── engine/                # Logic evaluator, graph traversal
-├── hooks/                 # useSimulation, useKeyboardShortcuts
-├── store/                 # Zustand global state
-└── data/                  # Component library definitions
-```
+- **Gates:** AND, OR, NOT, NAND, NOR, XOR, XNOR, Buffer
+- **Sequential:** D Flip-Flop, T Flip-Flop, JK Flip-Flop
+- **Inputs:** Toggle Switch, Clock Generator
+- **Outputs:** LED Indicator, 7-Segment Display
 
 ---
 
 ## ⚙️ Tech Stack
 
-React 18 · Vite · React Flow · Zustand · Tailwind CSS · React Router v6
+React 18 · Vite · React Flow · Zustand · Tailwind CSS · React Router v7
 
 ---
 
 ## 🔒 Notes
 
-- No backend — all data in browser localStorage
-- Export JSON to back up your work
-- Best performance with circuits under 100 nodes
+- There is no external backend database — all save data is stored securely in your browser's local storage.
+- You can export your circuits as JSON files to back them up or share them with others.
+- Optimized for performance with circuits under ~100 nodes.
 
 ---
-
-!! Good Luck  💖 😊 💖 !!
+*© 2026 ElectroCircuit. All rights reserved.*

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logoImg from '../../assets/logo.jpg';
 import { LogoMark, BrandName } from './Logo';
 import { Footer } from './Footer';
 import useStore from '../../store/useStore';
@@ -98,7 +99,7 @@ export default function AboutPage() {
             style={{ background: 'radial-gradient(circle, #00e5ff, transparent)' }} />
 
           <div className="relative z-10">
-            <img src="/logo.jpg" alt="ElectroCircuit" className="w-28 h-28 mx-auto mb-4 object-contain" style={{ borderRadius: '12px' }} />
+            <img src={logoImg} alt="ElectroCircuit" className="w-28 h-28 mx-auto mb-4 object-contain" style={{ borderRadius: '12px' }} />
             <h1 className="text-4xl font-bold mb-4 text-white">
               About <span style={{ color: '#00e5ff' }}>ElectroCircuit</span>
             </h1>
