@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─── */
+:root {
+  --bg-primary: #0a0f1e;
+  --bg-secondary: #0f172a;
+  --bg-card: #1a2235;
+  --accent-purple: #6366f1;
+  --accent-green: #22c55e;
+  --accent-yellow: #eab308;
+  --wire-high: #22c55e;
+  --wire-low: #374151;
+  --canvas-bg: #f0f4f8;
+  --canvas-dot: #cbd5e1;
+}
+
+/* ─── Base Reset ─── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  min-height: 100%;
+  width: 100%;
+  background-color: var(--bg-primary);
+  color: #f1f5f9;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar Styling ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2d40;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+/* ─── React Flow Canvas Customizations ─── */
+.react-flow__renderer {
+  background: var(--canvas-bg) !important;
+}
+.react-flow__background {
+  background-color: var(--canvas-bg) !important;
+}
+.react-flow__background pattern circle {
+  fill: var(--canvas-dot) !important;
+}
+
+/* Edge / Wire base */
+.react-flow__edge-path {
+  stroke-width: 2;
+  stroke: var(--wire-low);
+  transition: stroke 0.2s ease;
+}
+
+/* HIGH signal glow on wires */
+.edge-active .react-flow__edge-path {
+  stroke: var(--wire-high);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 4px #22c55e) drop-shadow(0 0 8px rgba(34,197,94,0.4));
+}
+
+/* Connection handles */
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  border: 2px solid #6366f1 !important;
+  background: #1a2235 !important;
+  transition: all 0.15s ease;
+  z-index: 10;
+}
+.react-flow__handle:hover,
+.react-flow__handle.connecting {
+  background: #6366f1 !important;
+  box-shadow: 0 0 8px #6366f1;
+  transform: scale(1.3);
+}
+.react-flow__handle.valid {
+  background: #22c55e !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+/* Selection box */
+.react-flow__selection {
+  background: rgba(99,102,241,0.08);
+  border: 1px solid #6366f1;
+}
+
+/* ── Override React Flow default node styling ── */
+/* Remove white background & border from node wrapper so our SVG shows cleanly */
+.react-flow__node {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+/* Only the default node type gets a card look if we haven't mapped it */
+.react-flow__node-default {
+  background: #1e293b !important;
+  border: 1px solid #6366f1 !important;
+  border-radius: 6px !important;
+  color: #f1f5f9 !important;
+  font-family: monospace !important;
+  padding: 6px 12px !important;
+}
+
+
+/* Controls — dark theme, clearly visible on light canvas */
+.react-flow__controls {
+  background: #1a2235 !important;
+  border: 1px solid #374151 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6) !important;
+  overflow: hidden !important;
+}
+.react-flow__controls-button {
+  background: #1a2235 !important;
+  border: none !important;
+  border-bottom: 1px solid #374151 !important;
+  color: #94a3b8 !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  fill: #94a3b8 !important;
+}
+.react-flow__controls-button svg {
+  fill: #94a3b8 !important;
+  stroke: #94a3b8 !important;
+}
+.react-flow__controls-button:hover {
+  background: #6366f1 !important;
+  color: #fff !important;
+  fill: #fff !important;
+}
+.react-flow__controls-button:hover svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+/* simPulse keyframe for SIMULATING indicator */
+@keyframes simPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+
+/* Mini-map */
+.react-flow__minimap {
+  background: #0f172a;
+  border: 1px solid #1e2d40;
+  border-radius: 8px;
+}
+
+/* ─── Gate Node Styles ─── */
+.gate-node {
+  position: relative;
+  cursor: grab;
+  user-select: none;
+}
+.gate-node:active {
+  cursor: grabbing;
+}
+.gate-node.selected svg,
+.gate-node.selected .gate-body {
+  filter: drop-shadow(0 0 8px #6366f1);
+}
+
+/* ─── LED Glow ─── */
+@keyframes ledPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px #eab308) drop-shadow(0 0 16px rgba(234,179,8,0.5)); }
+  50%       { filter: drop-shadow(0 0 16px #eab308) drop-shadow(0 0 32px rgba(234,179,8,0.8)); }
+}
+.led-on {
+  animation: ledPulse 1.5s ease-in-out infinite;
+}
+
+/* ─── Wire Flow Animation ─── */
+@keyframes wireFlow {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+.wire-flowing {
+  stroke-dasharray: 8 4;
+  animation: wireFlow 0.6s linear infinite;
+}
+
+/* ─── Glassmorphism Card ─── */
+.glass-card {
+  background: rgba(26, 34, 53, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+}
+
+/* ─── Gradient Text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-green {
+  background: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Sidebar Drag Ghost ─── */
+.drag-ghost {
+  opacity: 0.7;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+/* ─── Toolbar Button Base ─── */
+.toolbar-btn {
+  @apply flex items-center justify-center rounded-lg transition-all duration-150;
+  @apply hover:bg-bg-hover text-text-secondary hover:text-text-primary;
+}
+.toolbar-btn.active {
+  @apply bg-accent-purple text-white shadow-glow-purple;
+}
+
+/* ─── Toggle Switch ─── */
+.toggle-track {
+  @apply relative inline-flex h-7 w-14 items-center rounded-full transition-colors duration-300 cursor-pointer;
+}
+.toggle-thumb {
+  @apply inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform duration-300;
+}
+
+/* ─── Waveform Canvas ─── */
+#waveform-canvas {
+  display: block;
+  width: 100%;
+  background: #060d1a;
+  border-radius: 0 0 8px 8px;
+}
+
+/* ─── Notification Toast ─── */
+.toast {
+  @apply fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-deep;
+  @apply bg-bg-card border border-border text-text-primary;
+  @apply animate-slide-up;
+}
+
+/* ─── Node Selection Ring ─── */
+.react-flow__node.selected > * {
+  box-shadow: 0 0 0 2px #6366f1, 0 0 16px rgba(99,102,241,0.4);
+}
+
+/* ─── Grid overlay when dragging from sidebar ─── */
+.canvas-drag-over .react-flow__renderer {
+  outline: 2px dashed rgba(99,102,241,0.4);
+}
+
+/* ─── Simulation Running indicator ─── */
+@keyframes runPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+}
+.sim-running-ring {
+  animation: runPulse 1.2s ease-in-out infinite;
+}
+
+/* ─── Tooltip ─── */
+.tooltip {
+  @apply absolute z-50 px-2 py-1 text-xs font-medium rounded-md pointer-events-none;
+  @apply bg-bg-card border border-border text-text-secondary shadow-deep;
+  white-space: nowrap;
+}
+
+/* ─── Dashboard card hover ─── */
+.project-card {
+  @apply relative overflow-hidden rounded-2xl border border-border bg-bg-card;
+  @apply transition-all duration-300 cursor-pointer;
+}
+.project-card:hover {
+  @apply border-accent-purple shadow-glow-purple -translate-y-1;
+}
+.project-card::before {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+  background: radial-gradient(600px at var(--x, 50%) var(--y, 50%), rgba(99,102,241,0.08), transparent 50%);
+}
+.project-card:hover::before {
+  @apply opacity-100;
+}
