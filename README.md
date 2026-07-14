@@ -1,13 +1,13 @@
-# CircuitFlow 🔌⚡
+# ElectroCircuit 🔌⚡
 ### Interactive Web-Based Digital Logic Simulator
 
-> Build, wire, and simulate digital logic circuits — entirely in your browser. No installs required.
+> Build, wire, and simulate digital logic circuits — entirely in your browser. No installation required.
 
 ---
 
-## 🎯 What is CircuitFlow?
+## 🎯 What is ElectroCircuit?
 
-CircuitFlow is a **fully client-side** drag-and-drop digital logic circuit simulator built with React 18, React Flow, and Zustand.
+ElectroCircuit is a **fully client-side** drag-and-drop digital logic circuit simulator built with React 18, React Flow, and Zustand.
 
 It solves the #1 pain point of traditional EDA tools:
 - ❌ Heavy desktop software (Quartus, Logisim, Multisim)
@@ -112,4 +112,4 @@ React 18 · Vite · React Flow · Zustand · Tailwind CSS · React Router v6
 
 ---
 
-*Made with ⚡ React + React Flow + Zustand*
+!! Good Luck  💖 😊 💖 !!
