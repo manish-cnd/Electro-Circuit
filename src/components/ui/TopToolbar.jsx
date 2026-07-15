@@ -157,51 +157,29 @@ export default function TopToolbar({ onExport, onLoad }) {
           }
         </button>
 
-        {/* Clock Speed Dropdown */}
-        <div className="relative">
-          <button
-            ref={speedBtnRef}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors"
-            style={{
-              background: '#1a2235',
-              border: `1px solid ${speedOpen ? '#6366f1' : '#374151'}`,
-              color: speedOpen ? '#a5b4fc' : '#94a3b8',
-              cursor: 'pointer',
-            }}
-            onClick={() => setSpeedOpen(o => !o)}
+        {/* Clock Speed — native select, works everywhere */}
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg" style={{ background: '#1a2235', border: '1px solid #374151' }}>
+          <Zap size={11} color="#6366f1" />
+          <select
+            value={clockSpeed}
+            onChange={e => setClockSpeed(Number(e.target.value))}
             title="Change clock speed"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              color: '#94a3b8',
+              fontSize: 11,
+              fontFamily: 'monospace',
+              cursor: 'pointer',
+              appearance: 'auto',
+            }}
           >
-            <Zap size={11} />
-            {speeds.find(s => s.value === clockSpeed)?.label.split(' ')[0] || 'Speed'}
-            <ChevronDown size={10} style={{ transform: speedOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
-          </button>
-
-          {/* Fixed-position dropdown — renders outside overflow-hidden parent */}
-          {speedOpen && (
-            <div ref={dropdownRef} style={getDropdownStyle()}>
-              {speeds.map(s => (
-                <button
-                  key={s.value}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '8px 12px',
-                    fontSize: 12,
-                    fontFamily: 'monospace',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: clockSpeed === s.value ? '#22c55e' : '#94a3b8',
-                    background: clockSpeed === s.value ? 'rgba(34,197,94,0.1)' : 'transparent',
-                    borderLeft: clockSpeed === s.value ? '2px solid #22c55e' : '2px solid transparent',
-                  }}
-                  onClick={() => { setClockSpeed(s.value); setSpeedOpen(false); }}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
-          )}
+            <option value={500}  style={{ background: '#1a2235' }}>Slow (500ms)</option>
+            <option value={200}  style={{ background: '#1a2235' }}>Normal (200ms)</option>
+            <option value={100}  style={{ background: '#1a2235' }}>Fast (100ms)</option>
+            <option value={50}   style={{ background: '#1a2235' }}>Turbo (50ms)</option>
+          </select>
         </div>
 
         {/* Stats */}
