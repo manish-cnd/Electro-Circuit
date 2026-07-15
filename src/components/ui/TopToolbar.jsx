@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../store/useStore';
 import {
@@ -30,6 +30,23 @@ export default function TopToolbar({ onExport, onLoad }) {
 
   const [editingName, setEditingName] = useState(false);
   const [speedOpen, setSpeedOpen] = useState(false);
+  const speedBtnRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!speedOpen) return;
+    function handleClickOutside(e) {
+      if (
+        dropdownRef.current && !dropdownRef.current.contains(e.target) &&
+        speedBtnRef.current && !speedBtnRef.current.contains(e.target)
+      ) {
+        setSpeedOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [speedOpen]);
 
   const handleSave = useCallback(() => {
     saveProject();
@@ -44,11 +61,29 @@ export default function TopToolbar({ onExport, onLoad }) {
   }, [nodes, newProject]);
 
   const speeds = [
-    { label: 'Slow (500ms)', value: 500 },
+    { label: 'Slow (500ms)',   value: 500 },
     { label: 'Normal (200ms)', value: 200 },
-    { label: 'Fast (100ms)', value: 100 },
-    { label: 'Turbo (50ms)', value: 50 },
+    { label: 'Fast (100ms)',   value: 100 },
+    { label: 'Turbo (50ms)',   value: 50  },
   ];
+
+  // Calculate dropdown position from button position
+  const getDropdownStyle = () => {
+    if (!speedBtnRef.current) return {};
+    const rect = speedBtnRef.current.getBoundingClientRect();
+    return {
+      position: 'fixed',
+      top: rect.bottom + 6,
+      left: rect.left,
+      width: 148,
+      background: '#1a2235',
+      border: '1px solid #374151',
+      borderRadius: 10,
+      zIndex: 9999,
+      boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+      overflow: 'hidden',
+    };
+  };
 
   return (
     <div
@@ -125,32 +160,40 @@ export default function TopToolbar({ onExport, onLoad }) {
         {/* Clock Speed Dropdown */}
         <div className="relative">
           <button
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors hover:bg-bg-hover"
+            ref={speedBtnRef}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors"
             style={{
               background: '#1a2235',
-              border: '1px solid #1e2d40',
-              color: '#94a3b8',
+              border: `1px solid ${speedOpen ? '#6366f1' : '#374151'}`,
+              color: speedOpen ? '#a5b4fc' : '#94a3b8',
+              cursor: 'pointer',
             }}
             onClick={() => setSpeedOpen(o => !o)}
-            title="Clock speed"
+            title="Change clock speed"
           >
             <Zap size={11} />
             {speeds.find(s => s.value === clockSpeed)?.label.split(' ')[0] || 'Speed'}
-            <ChevronDown size={10} />
+            <ChevronDown size={10} style={{ transform: speedOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
           </button>
 
+          {/* Fixed-position dropdown — renders outside overflow-hidden parent */}
           {speedOpen && (
-            <div
-              className="absolute top-full left-0 mt-1 w-36 rounded-xl overflow-hidden z-50 shadow-deep"
-              style={{ background: '#1a2235', border: '1px solid #1e2d40' }}
-            >
+            <div ref={dropdownRef} style={getDropdownStyle()}>
               {speeds.map(s => (
                 <button
                   key={s.value}
-                  className="w-full text-left px-3 py-2 text-xs font-mono transition-colors hover:bg-bg-hover"
                   style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '8px 12px',
+                    fontSize: 12,
+                    fontFamily: 'monospace',
+                    border: 'none',
+                    cursor: 'pointer',
                     color: clockSpeed === s.value ? '#22c55e' : '#94a3b8',
-                    background: clockSpeed === s.value ? 'rgba(34,197,94,0.08)' : 'transparent',
+                    background: clockSpeed === s.value ? 'rgba(34,197,94,0.1)' : 'transparent',
+                    borderLeft: clockSpeed === s.value ? '2px solid #22c55e' : '2px solid transparent',
                   }}
                   onClick={() => { setClockSpeed(s.value); setSpeedOpen(false); }}
                 >
