@@ -12,7 +12,8 @@ const handleStyle = (active, color = '#22c55e') => ({
 // ─── LED OUTPUT ───────────────────────────────────────────────────────────────
 export const OutputLedNode = memo(({ id, data, selected }) => {
   const isRunning = useStore(s => s.isRunning);
-  const active = isRunning && (data.inputs?.a === 1 || data.output === 1);
+  // LED is ON only when the incoming wire signal (inputs.a) is high
+  const active = isRunning && (data.inputs?.a === 1);
   const ledColor = active ? '#eab308' : '#374151';
   const glowFilter = active
     ? 'drop-shadow(0 0 6px #eab308) drop-shadow(0 0 14px rgba(234,179,8,0.5))'

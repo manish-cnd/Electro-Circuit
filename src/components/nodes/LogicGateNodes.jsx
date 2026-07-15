@@ -26,6 +26,8 @@ const handleStyle = (active) => ({
 
 // ─── AND GATE ────────────────────────────────────────────────────────────────
 export const AndGateNode = memo(({ id, data, selected }) => {
+  // We subscribe to the global store to check if the simulation is currently running
+  // and if this specific gate has a high (1) output to trigger glowing animations.
   const isRunning = useStore(s => s.isRunning);
   const active = isRunning && data.output === 1;
   const color = active ? '#22c55e' : '#6366f1';
@@ -33,6 +35,8 @@ export const AndGateNode = memo(({ id, data, selected }) => {
 
   return (
     <div style={nodeStyle(active)}>
+       {/* React Flow Handles act as the physical connection points for wires. */}
+      {/* We dynamically position them and pass the 'active' state for styling. */}
       <Handle type="target" position={Position.Left} id="input-a"
         style={{ ...handleStyle(active), top: 16, left: -6, position: 'absolute' }} />
       <Handle type="target" position={Position.Left} id="input-b"

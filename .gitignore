@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Personal/report files — not for public repo
+blueprint.md
+work.md
+internship_report_draft.md

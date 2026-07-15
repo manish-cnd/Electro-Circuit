@@ -18,18 +18,24 @@ export function evaluateGate(type, inputs = {}, nodeData = {}) {
 
   switch (type.toUpperCase()) {
     // ─── Combinational Gates ───────────────────────────────────────
+
+     // AND Gate: Outputs 1 ONLY if every single input is currently 1.
     case 'AND':
       return vals.length > 0 && vals.every(v => v === 1) ? 1 : 0;
 
+    // OR Gate: Outputs 1 if at least one input is currently 1.
     case 'OR':
       return vals.some(v => v === 1) ? 1 : 0;
 
+     // NOT Gate: Inverts the incoming signal directly.
     case 'NOT':
       return a === 1 ? 0 : 1;
 
+     // NAND Gate: The inverse of AND. Highly optimized evaluation.
     case 'NAND':
       return vals.length > 0 && vals.every(v => v === 1) ? 0 : 1;
 
+    
     case 'NOR':
       return vals.some(v => v === 1) ? 0 : 1;
 

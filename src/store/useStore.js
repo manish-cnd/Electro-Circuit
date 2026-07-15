@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { applyNodeChanges, applyEdgeChanges, addEdge } from 'reactflow';
-import { evaluateGate } from '../engine/logicEvaluator';
+import { evaluateGate, evaluateFlipFlop } from '../engine/logicEvaluator';
 import { topologicalSort } from '../engine/graphTraversal';
 
 const MAX_HISTORY = 50;
@@ -200,23 +200,42 @@ const useStore = create((set, get) => ({
       const incomingEdges = edges.filter(e => e.target === id);
       const inputs = {};
       incomingEdges.forEach(edge => {
-        const sourceNode = nodes.find(n => n.id === edge.source);
-        if (sourceNode) {
-          const sourceOutput = signalMap[edge.source]?.output ?? 0;
-          const handle = edge.targetHandle || 'a';
-          const inputKey = handle.replace('input-', '');
-          inputs[inputKey] = sourceOutput;
+        const srcSignal = signalMap[edge.source];
+        // If the wire is coming from the Q' (not-Q) output of a flip-flop,
+        // we must use the Qn value, NOT the primary output (which is Q)
+        let sourceOutput;
+        if (edge.sourceHandle === 'output-qn') {
+          sourceOutput = srcSignal?.Qn ?? 0;
+        } else {
+          sourceOutput = srcSignal?.output ?? 0;
         }
+        const handle = edge.targetHandle || 'a';
+        const inputKey = handle.replace('input-', '');
+        inputs[inputKey] = sourceOutput;
       });
 
-      const output = evaluateGate(nodeType, inputs, signalMap[id]);
-      signalMap[id] = { ...signalMap[id], inputs, output };
+      const isFlipFlop = ['D_FF', 'T_FF', 'JK_FF'].includes(nodeType);
+
+      if (isFlipFlop) {
+        // Use evaluateFlipFlop which returns full { Q, Qn, output, prevClk }
+        const ffResult = evaluateFlipFlop(nodeType, inputs, signalMap[id]);
+        signalMap[id] = { ...signalMap[id], inputs, ...ffResult };
+      } else {
+        const output = evaluateGate(nodeType, inputs, signalMap[id]);
+        signalMap[id] = { ...signalMap[id], inputs, output };
+      }
     });
 
     // Step 4: Update edges based on signal state
+    // For output-qn source handle, use Qn value instead of output (which is Q)
     const newEdges = edges.map(edge => {
       const sourceSignal = signalMap[edge.source];
-      const active = sourceSignal?.output === 1;
+      let active;
+      if (edge.sourceHandle === 'output-qn') {
+        active = (sourceSignal?.Qn ?? 0) === 1;
+      } else {
+        active = sourceSignal?.output === 1;
+      }
       return { ...edge, data: { ...edge.data, active } };
     });
 
